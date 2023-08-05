@@ -17,7 +17,6 @@ import org.koin.android.ext.android.inject
 
 class PhoneNumberFragment : Fragment() {
 
-
     private lateinit var binding: FragmentPhoneNumberBinding
     private val phoneViewModel by inject<PhoneViewModel>()
 
@@ -29,17 +28,16 @@ class PhoneNumberFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        binding.btnContinue.setOnClickListener {
-            val countryCode = binding.etCountryCode.text.toString()
-            val mobileNumber = binding.etPhoneNumber.text.toString()
+        // Handle the continue button click
+        binding.continueButton.setOnClickListener {
+            val countryCode = binding.countryCode.text.toString()
+            val mobileNumber = binding.number.text.toString()
             val number = countryCode + mobileNumber
 
+            // Validate phone number format
             if (isValidPhoneNumber(countryCode, mobileNumber)) {
                 phoneViewModel.phoneNumberLogin(number)
             } else {
@@ -47,32 +45,32 @@ class PhoneNumberFragment : Fragment() {
             }
         }
 
+        // Observe the phone number login response
         phoneViewModel.phoneNumberResponse.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is ResponseRequest.Loading -> {
                     binding.progressBar.visible()
-                    binding.btnContinue.gone()
+                    binding.continueButton.gone()
                 }
                 is ResponseRequest.Success -> {
                     binding.progressBar.gone()
-                    binding.btnContinue.visible()
+                    binding.continueButton.visible()
                     if (uiState.data.status) {
-                        val action =
-                            PhoneNumberFragmentDirections.actionPhoneFragmentToOtpFragment(
-                                countryCode = binding.etCountryCode.text.toString(),
-                                mobileNumber = binding.etPhoneNumber.text.toString()
-                            )
-
+                        // Navigate to OTP fragment with the entered phone number
+                        val action = PhoneNumberFragmentDirections.actionPhoneFragmentToOtpFragment(
+                            countryCode = binding.countryCode.text.toString(),
+                            mobileNumber = binding.number.text.toString()
+                        )
                         findNavController().navigate(action)
                     } else {
-                        showToast("Phone number status false. Please try with different number.")
+                        showToast("Phone number status false. Please try with a different number.")
                     }
                 }
                 is ResponseRequest.Failure -> {
                     binding.progressBar.gone()
                     showToast(uiState.error)
                 }
-                else -> {}
+                else -> {} // Handle other cases if needed
             }
         }
     }

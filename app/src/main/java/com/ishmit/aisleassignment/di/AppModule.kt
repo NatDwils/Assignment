@@ -10,12 +10,21 @@ import org.koin.dsl.module
 
 val appModule = module {
 
+    // Create a singleton instance of RetrofitHelper
     single { RetrofitHelper }
+
+    // Create a singleton instance of ApiService using RetrofitHelper
     single { get<RetrofitHelper>().create() }
 
+    // Create a singleton instance of UserRepository with ApiService dependency
     single { UserRepository(get()) }
 
+    // Create a ViewModel instance for PhoneViewModel with UserRepository dependency
     viewModel { PhoneViewModel(get()) }
+
+    // Create a ViewModel instance for OtpViewModel with UserRepository dependency
     viewModel { OtpViewModel(get()) }
+
+    // Create a ViewModel instance for NotesViewModel with UserRepository dependency
     viewModel { NotesViewModel(get()) }
 }

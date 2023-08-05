@@ -11,15 +11,12 @@ import com.ishmit.aisleassignment.utils.viewState.ResponseRequest
 import com.ishmit.aisleassignment.utils.gone
 import com.ishmit.aisleassignment.utils.showToast
 import com.ishmit.aisleassignment.utils.visible
-import dagger.hilt.android.AndroidEntryPoint
 import org.koin.android.ext.android.inject
 
 class OtpFragment : Fragment() {
 
-
     private lateinit var binding : FragmentOtpBinding
     private val otpViewModel by inject<OtpViewModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,42 +29,46 @@ class OtpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Extracting arguments from navigation
         val args = OtpFragmentArgs.fromBundle(requireArguments())
         val countryCode = args.countryCode
         val mobileNumber = args.mobileNumber
         val number = countryCode + mobileNumber
 
-        binding.tvCountryCode.text = countryCode
-        binding.tvMobileNumber.text = mobileNumber
+        // Setting country code and mobile number
+        binding.countryCode.text = countryCode
+        binding.number.text = mobileNumber
 
-        binding.btnEdit.setOnClickListener {
+        // Edit button click listener to navigate back to PhoneNumberFragment
+        binding.edit.setOnClickListener {
             val action = OtpFragmentDirections.actionOtpFragmentToPhoneNumberFragment()
             findNavController().navigate(action)
         }
 
-
-        binding.btnContinue.setOnClickListener {
-            val otp = binding.etOtp.text.toString()
-            otpViewModel.verifyOtp( number,otp)
+        // Continue button click listener to verify OTP
+        binding.continueButton.setOnClickListener {
+            val otp = binding.otp.text.toString()
+            otpViewModel.verifyOtp(number, otp)
         }
 
-        binding.btnResendOtp.setOnClickListener {
+        // Resend button click listener to request OTP resend
+        binding.resendButton.setOnClickListener {
             otpViewModel.resendOtp()
         }
 
-        otpViewModel.startOtpTimer(60)
-
+        // Observing the OTP timer
         otpViewModel.timer.observe(viewLifecycleOwner) { timerValue ->
-            binding.tvTimer.text = timerValue
+            binding.timer.text = timerValue
             if (timerValue == "00:00") {
-                binding.tvTimer.gone()
-                binding.btnResendOtp.visible()
+                binding.timer.gone()
+                binding.resendButton.visible()
             } else {
-                binding.tvTimer.visible()
-                binding.btnResendOtp.gone()
+                binding.timer.visible()
+                binding.resendButton.gone()
             }
         }
 
+        // Observing the OTP verification response
         otpViewModel.otpResponse.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is ResponseRequest.Loading -> {

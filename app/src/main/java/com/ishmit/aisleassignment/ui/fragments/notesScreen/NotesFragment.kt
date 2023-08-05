@@ -8,27 +8,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ishmit.aisleassignment.databinding.FragmentNotesBinding
-import com.ishmit.aisleassignment.ui.adapters.InvitesAdapter
-import com.ishmit.aisleassignment.ui.adapters.LikesAdapter
+import com.ishmit.aisleassignment.ui.adapters.NotesAdapter
+import com.ishmit.aisleassignment.ui.adapters.ProfileAdapter
 import com.ishmit.aisleassignment.utils.viewState.ResponseRequest
 import com.ishmit.aisleassignment.utils.gone
 import com.ishmit.aisleassignment.utils.visible
 import com.ishmit.aisleassignment.utils.showToast
-import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotesFragment : Fragment() {
 
     private lateinit var binding: FragmentNotesBinding
     private val notesViewModel: NotesViewModel by viewModel()
-    private val invitesAdapter = InvitesAdapter()
-    private val likesAdapter = LikesAdapter()
-
+    private val invitesAdapter = NotesAdapter()
+    private val likesAdapter = ProfileAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Inflate the layout for this fragment using data binding
         binding = FragmentNotesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,29 +35,31 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Retrieve arguments from navigation
         val args = NotesFragmentArgs.fromBundle(requireArguments())
-
         val authToken = args.token
 
-        binding.recyclerInvites.apply {
+        // Set up RecyclerViews and Adapters
+        binding.notesRecycler.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = invitesAdapter
         }
 
-        binding.recyclerLikes.apply {
+        binding.profileRecycler.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = likesAdapter
         }
 
+        // Observe notesResponse LiveData
         notesViewModel.notesResponse.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is ResponseRequest.Loading -> {
-                    binding.invitesProgressBar.visible()
-                    binding.likesProgressBar.visible()
+                    binding.notesProgressBar.visible()
+                    binding.profileProgressBar.visible()
                 }
                 is ResponseRequest.Success -> {
-                    binding.invitesProgressBar.gone()
-                    binding.likesProgressBar.gone()
+                    binding.notesProgressBar.gone()
+                    binding.profileProgressBar.gone()
                     val notesResponse = uiState.data
                     val invites = notesResponse?.invites
                     val likes = notesResponse?.likes
@@ -77,13 +78,13 @@ class NotesFragment : Fragment() {
                 }
                 is ResponseRequest.Failure -> {
                     showToast(uiState.error)
-                    binding.invitesProgressBar.gone()
-                    binding.likesProgressBar.gone()
+                    binding.notesProgressBar.gone()
+                    binding.profileProgressBar.gone()
                 }
             }
         }
 
+        // Call the getNotes function with the auth token
         notesViewModel.getNotes(authToken)
     }
-
 }

@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.ishmit.aisleassignment.ui.fragments.notesScreen.NotesFragment">
 
+    <!-- ScrollView to enable scrolling content if it exceeds the screen height -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="16dp">
 
+        <!-- Main content layout using ConstraintLayout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <!-- Invites Section -->
+
+            <!-- Title TextView for "Notes" -->
             <TextView
-                android:id="@+id/textInvites"
+                android:id="@+id/notesText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
@@ -29,8 +33,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- TextView for a message related to personal messages -->
             <TextView
-                android:id="@+id/textPersonalMsg"
+                android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -39,12 +44,11 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInvites" />
+                app:layout_constraintTop_toBottomOf="@+id/notesText" />
 
-
-            <!-- Horizontal RecyclerView for Invites -->
+            <!-- RecyclerView for displaying notes -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerInvites"
+                android:id="@+id/notesRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -53,28 +57,29 @@
                 android:overScrollMode="never"
                 android:paddingHorizontal="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/textLikesYou"
+                app:layout_constraintBottom_toTopOf="@id/profileText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textPersonalMsg" />
+                app:layout_constraintTop_toBottomOf="@id/message" />
 
-            <!-- Text "Likes You" -->
+            <!-- ProgressBar for notes loading -->
             <ProgressBar
-                android:id="@+id/invites_progress_bar"
+                android:id="@+id/notesProgressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="89dp"
                 android:indeterminateTint="@color/black"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/textLikesYou"
+                app:layout_constraintBottom_toTopOf="@+id/profileText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textPersonalMsg"
+                app:layout_constraintTop_toBottomOf="@+id/message"
                 app:layout_constraintVertical_bias="0.122" />
 
+            <!-- TextView for "Interested in you" profile section -->
             <TextView
-                android:id="@+id/textLikesYou"
+                android:id="@+id/profileText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -85,38 +90,39 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toTopOf="@id/layoutPremiumMembers"
+                app:layout_constraintBottom_toTopOf="@id/layoutProfile"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Premium Members Box -->
-
+            <!-- Layout for the "Upgrade" profile section -->
             <RelativeLayout
-                android:id="@+id/layoutPremiumMembers"
+                android:id="@+id/layoutProfile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@id/recyclerLikes"
+                app:layout_constraintBottom_toTopOf="@id/profileRecycler"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent">
 
+                <!-- TextView for profile section message -->
                 <TextView
-                    android:id="@+id/textPremium"
+                    android:id="@+id/profiletext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="0dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
-                    android:layout_toStartOf="@+id/btnUpgrade"
+                    android:layout_toStartOf="@+id/updateButton"
                     android:text="@string/premium_members_can_view_all_their_likes_at_once"
                     android:textColor="@color/light_grey"
                     android:textSize="14sp" />
 
+                <!-- Button to upgrade profile -->
                 <Button
-                    android:id="@+id/btnUpgrade"
+                    android:id="@+id/updateButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -128,8 +134,9 @@
 
             </RelativeLayout>
 
+            <!-- RecyclerView for displaying profile likes -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerLikes"
+                android:id="@+id/profileRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -140,11 +147,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutPremiumMembers"
+                app:layout_constraintTop_toBottomOf="@id/layoutProfile"
                 app:spanCount="2" />
 
+            <!-- ProgressBar for profile likes loading -->
             <ProgressBar
-                android:id="@+id/likes_progress_bar"
+                android:id="@+id/profileProgressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="41dp"
@@ -153,11 +161,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutPremiumMembers" />
-
+                app:layout_constraintTop_toBottomOf="@+id/layoutProfile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

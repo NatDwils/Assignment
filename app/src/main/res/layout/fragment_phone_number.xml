@@ -7,9 +7,9 @@
     tools:context="com.ishmit.aisleassignment.ui.fragments.phoneNumberScreen.PhoneNumberFragment"
     android:padding="30dp">
 
-
+    <!-- TextView for "Get OTP" -->
     <TextView
-        android:id="@+id/tvGetOtp"
+        android:id="@+id/otpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -20,8 +20,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- TextView for "Enter Your Phone Number" -->
     <TextView
-        android:id="@+id/tvPhoneTitle"
+        android:id="@+id/numberText"
         android:layout_width="220dp"
         android:layout_height="72dp"
         android:layout_margin="8dp"
@@ -29,10 +30,11 @@
         android:textColor="@color/black"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvGetOtp" />
+        app:layout_constraintTop_toBottomOf="@id/otpText" />
 
+    <!-- EditText for country code -->
     <EditText
-        android:id="@+id/etCountryCode"
+        android:id="@+id/countryCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/_91"
@@ -43,10 +45,11 @@
         android:layout_margin="8dp"
         android:background="@drawable/background_textbox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPhoneTitle" />
+        app:layout_constraintTop_toBottomOf="@id/numberText" />
 
+    <!-- EditText for phone number -->
     <EditText
-        android:id="@+id/etPhoneNumber"
+        android:id="@+id/number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_textbox"
@@ -57,21 +60,23 @@
         android:textStyle="bold"
         android:padding="8dp"
         android:layout_margin="8dp"
-        app:layout_constraintStart_toEndOf="@id/etCountryCode"
-        app:layout_constraintTop_toBottomOf="@+id/tvPhoneTitle" />
+        app:layout_constraintStart_toEndOf="@id/countryCode"
+        app:layout_constraintTop_toBottomOf="@+id/numberText" />
 
+    <!-- RelativeLayout for Continue Button and ProgressBar -->
     <RelativeLayout
-        android:id="@+id/button_layout"
+        android:id="@+id/layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPhoneNumber">
+        app:layout_constraintTop_toBottomOf="@id/number">
 
+        <!-- Continue Button -->
         <Button
-            android:id="@+id/btnContinue"
+            android:id="@+id/continueButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_button"
@@ -81,14 +86,14 @@
             android:textSize="14sp"
             app:backgroundTint="@color/yellow" />
 
+        <!-- ProgressBar for loading -->
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminateTint="@color/black"
             android:visibility="invisible" />
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

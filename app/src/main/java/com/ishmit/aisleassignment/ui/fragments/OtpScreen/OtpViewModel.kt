@@ -14,15 +14,20 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-class OtpViewModel (private val repository: UserRepository) : ViewModel() {
+class OtpViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
+
+    // LiveData to hold OTP verification response
     private val _otpResponse = MutableLiveData<ResponseRequest<OtpResponse>>()
     val otpResponse: LiveData<ResponseRequest<OtpResponse>> = _otpResponse
 
+    // LiveData to hold the formatted timer value
     private val _timer = MutableLiveData<String>()
     val timer: LiveData<String> = _timer
 
+    // Job to manage the OTP timer coroutine
     private var otpTimerJob: Job? = null
 
+    // Function to verify OTP
     fun verifyOtp(number: String, otp: String) {
         viewModelScope.launch {
             _otpResponse.value = ResponseRequest.Loading
@@ -31,10 +36,12 @@ class OtpViewModel (private val repository: UserRepository) : ViewModel() {
         }
     }
 
+    // Function to initiate OTP resend and start the timer
     fun resendOtp() {
         startOtpTimer(60)
     }
 
+    // Function to start the OTP timer
     fun startOtpTimer(durationInSeconds: Int) {
         otpTimerJob?.cancel()
         otpTimerJob = viewModelScope.launch {
@@ -47,10 +54,10 @@ class OtpViewModel (private val repository: UserRepository) : ViewModel() {
         }
     }
 
+    // Function to format timer value into minutes and seconds
     private fun getTimerFormattedString(seconds: Int): String {
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60
         return String.format(Locale.getDefault(), "%02d:%02d", minutes, remainingSeconds)
     }
-
 }

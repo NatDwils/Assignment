@@ -12,13 +12,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotesViewModel(private val repository: UserRepository) : ViewModel() {
+    // MutableLiveData to hold the response state
     private val _notesResponse = MutableLiveData<ResponseRequest<NotesResponse>>()
+
+    // Exposing a LiveData for the UI to observe
     val notesResponse: LiveData<ResponseRequest<NotesResponse>> = _notesResponse
 
+    // Function to fetch notes using the repository
     fun getNotes(authToken: String) {
         viewModelScope.launch {
+            // Set the initial loading state
             _notesResponse.value = ResponseRequest.Loading
+
+            // Call the repository function to get notes
             val response = repository.getNotes(authToken)
+
+            // Update the LiveData with the response
             _notesResponse.value = response
         }
     }
