@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AisleAssignment</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="enter_your_phone_number">Enter Your Phone Number</string>
+    <string name="_91">+91</string>
+    <string name="_9999999999">9999999999</string>
+    <string name="_continue">Continue</string>
+    <string name="enter_the_otp">Enter The OTP</string>
+    <string name="otp">OTP</string>
+    <string name="_01_00">01:00</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="first_name_age">First Name, Age</string>
+    <string name="first_name">First Name</string>
+    <string name="notes">Notes</string>
+    <string name="personal_messages_to_you">Personal messages to you</string>
+    <string name="interested_in_you">Interested In You</string>
+    <string name="premium_members_can_view_all_their_likes_at_once">Premium members can view all their likes at once</string>
+    <string name="upgrade">Upgrade</string>
+</resources>

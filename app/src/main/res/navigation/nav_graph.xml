@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation.xml"
+    app:startDestination="@id/phoneNumberFragment">
+
+    <fragment
+        android:id="@+id/phoneNumberFragment"
+        android:name="com.ishmit.aisleassignment.ui.fragments.phoneNumberScreen.PhoneNumberFragment"
+        android:label="fragment_phone_number"
+        tools:layout="@layout/fragment_phone_number" >
+        <action
+            android:id="@+id/action_phoneFragment_to_otpFragment"
+            app:destination="@id/otpFragment"/>
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.ishmit.aisleassignment.ui.fragments.OtpScreen.OtpFragment"
+        android:label="fragment_otp"
+        tools:layout="@layout/fragment_otp" >
+        <action
+            android:id="@+id/action_otpFragment_to_phoneNumberFragment"
+            app:destination="@id/phoneNumberFragment" />
+        <action
+            android:id="@+id/action_otpFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
+
+        <argument
+            android:name="countryCode"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="mobileNumber"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+    <fragment
+        android:id="@+id/notesFragment"
+        android:name="com.ishmit.aisleassignment.ui.fragments.notesScreen.NotesFragment"
+        android:label="fragment_notes"
+        tools:layout="@layout/fragment_notes" >
+    <argument
+        android:name="token"
+        app:argType="string"
+        android:defaultValue="" />
+    </fragment>
+
+</navigation>
